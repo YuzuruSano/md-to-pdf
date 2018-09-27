@@ -1,6 +1,11 @@
 # markdown-it with puppeteer PDF()
 
-## usage
+## Required
+
+- node v10.9.0
+- yarn 1.9.4
+
+## Usage
 
 Clone or Download this repository.
 
