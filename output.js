@@ -14,12 +14,14 @@ const css = fs.readFileSync(`${__dirname}/css/style.css`, 'utf8', function (err,
   });
 const html = `<html><head><title>Document</title><style>${css}</style></head><body class="markdown-body">${mi.render(target)}</body></html>`;
 
-
 (async() => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   await page.setViewport({width: 1600, height: 1200, deviceScaleFactor: 2});
   await page.setContent(html, { waitUntil: 'networkidle0' })
+  const imgs = await page.$$eval('img', imgs => Promise.all(
+    imgs.map(img => new Promise(resolve => img.onload = resolve))
+  ));
   await page.pdf({
     path: `${process.argv[2]}.pdf`,
     format:'A4',
